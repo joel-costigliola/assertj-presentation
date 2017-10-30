@@ -1,9 +1,9 @@
-## GraphQL introduction
-##### <span style="font-family:Helvetica Neue; font-weight:bold">And how it was used to build the new Data Engine UI</span>
+## AssertJ
+##### <span style="font-family:Helvetica Neue; font-weight:bold">Rich and easy to use assertions</span>
 
 ---
 
-## What is GraphQL ?
+## Agendas
 
 - A data query language for data fetching and manipulations |
 - Client and server agrees on a schema |
