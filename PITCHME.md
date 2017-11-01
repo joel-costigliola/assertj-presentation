@@ -6,17 +6,84 @@
 ## Agenda
 
 - What is AssertJ ? |
+- Quick start |
 - Basic assertions |
 - Collection assertions |
 - Exception assertions |
+- Soft assertions |
 - Using conditions |
-- Custom assertions |
 - Guava and joda time assertions |
+- Advanced: custom assertions |
 - Let's practice ! |
 
 ---
 
-## A simple query example
+## What is AssertJ ?
+
+AssertJ is an assertion java library which:
+- provides rich assertions for common java types |
+- reports helpful error messages when assertions fail | 
+- improves code readability thanks to its fluent API | 
+- easy to use with your favorite IDE |
+- good javadoc including code examples |
+
+---
+
+## Quick start
+
+Add the latest version of assertj-core library to your test dependencies 
+
+![Press Down Key](assets/down-arrow.png)
+
++++
+
+#### PB2 Test project setup
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ivy-module version="1.0">
+  <info module="org.assertj.handson" organisation="org.assertj" status="integration"></info>
+  <configurations>
+    <conf name="test"/>
+  </configurations>
+  <publications>
+  </publications>
+  <dependencies>
+    <dependency conf="test->nodist" name="assertj-core" org="assertj" rev="3.8.0"/>
+    <!-- other usual test dependencies -->
+    <dependency conf="test->nodist" org="bundle" name="org.junit" rev="4.12.0"/>
+    <dependency conf="test->nodist" org="bundle" name="org.mockito" rev="1.9.5"/>
+  </dependencies>
+</ivy-module>```
+
+@[5](ivy test config)
+@[10](assertj dependency)
+
+
+---
+
+## Basic assertions
+
+String assertions demo !
+
+![Press Down Key](assets/down-arrow.png)
+
++++
+
+#### Present Source Directly From Your Repo
+
+<br>
+
+Step through source code directly within your presentations.
+*No more switching* back and forth between your slideshow and your IDE!
+
++++?code=src/elixir/monitor.ex&lang=elixir&title=Repo Source File: Elixir Snippets
+
+@[11-14](Elixir module-attributes as constants)
+@[22-28](Elixir with-statement for conciseness)
+@[171-177](Elixir case-statement pattern matching)
+@[179-185](Elixir pipe-mechanism for composing functions)=
+
 
 ```js
 query {
@@ -33,6 +100,8 @@ query {
 @[2](connection is a query)
 @[3](status is a simple field)
 @[4-7](config is an object field)
+
+
 
 ---
 
