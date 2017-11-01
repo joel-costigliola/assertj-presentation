@@ -3,13 +3,16 @@
 
 ---
 
-## Agendas
+## Agenda
 
-- A data query language for data fetching and manipulations |
-- Client and server agrees on a schema |
-- Client queries are shaped just like the data it returns |
-- Language agnostic |
-- GraphQL has a formal specification |
+- What is AssertJ ? |
+- Basic assertions |
+- Collection assertions |
+- Exception assertions |
+- Using conditions |
+- Custom assertions |
+- Guava and joda time assertions |
+- Let's practice ! |
 
 ---
 
