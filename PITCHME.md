@@ -1,20 +1,20 @@
 ## AssertJ
 ##### <span style="font-family:Helvetica Neue; font-weight:bold">Rich and easy to use assertions</span>
 
+website http://joel-costigliola.github.io/assertj
+
 ---
 
 ## Agenda
 
 - What is AssertJ ? |
 - Quick start |
-- Basic assertions |
-- Collection assertions |
-- Exception assertions |
+- Assertions quick tour |
 - Soft assertions |
 - Using conditions |
-- Guava and joda time assertions |
-- Advanced: custom assertions |
-- Let's practice ! |
+- AssertJ extensions |
+- Advanced stuff |
+- Hands on ! |
 
 ---
 
@@ -22,16 +22,16 @@
 
 AssertJ is an assertion java library which:
 - provides rich assertions for common java types |
-- reports helpful error messages when assertions fail | 
 - improves code readability thanks to its fluent API | 
 - easy to use with your favorite IDE |
-- good javadoc including code examples |
+- reports helpful error messages when assertions fail | 
+- has javadoc with code examples |
 
 ---
 
 ## Quick start
 
-Add the latest version of assertj-core library to your test dependencies 
+Add assertj-core library to your test dependencies 
 
 ![Press Down Key](assets/down-arrow.png)
 
@@ -80,13 +80,25 @@ Gradle
 ```
 testCompile 'org.assertj:assertj-core:3.8.0'
 ```
+
 ---
 
 ## Basic assertions
 
-String assertions demo !
+- Just start with the Assertions class |
+- Allow chaining assertions  |
+- IDE friendly | 
+- Quick assertions demo |
 
-![Press Down Key](assets/down-arrow.png)
+Note:
+Demo: 
+* assertion description as()
+* chaining assertion
+
+---
+
+## Collection assertions
+
 
 +++
 
