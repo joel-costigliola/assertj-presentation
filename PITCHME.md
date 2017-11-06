@@ -49,17 +49,37 @@ Add the latest version of assertj-core library to your test dependencies
   <publications>
   </publications>
   <dependencies>
-    <dependency conf="test->nodist" name="assertj-core" org="assertj" rev="3.8.0"/>
+    <dependency conf="test->nodist" name="assertj-core" 
+                org="assertj" rev="3.8.0"/>
     <!-- other usual test dependencies -->
     <dependency conf="test->nodist" org="bundle" name="org.junit" rev="4.12.0"/>
     <dependency conf="test->nodist" org="bundle" name="org.mockito" rev="1.9.5"/>
   </dependencies>
-</ivy-module>```
+</ivy-module>
+```
 
 @[5](ivy test config)
-@[10](assertj dependency)
+@[10-11](assertj dependency)
 
++++
 
+#### Maven or Gradle setup
+
+Maven
+
+```xml
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-core</artifactId>
+  <version>3.8.0</version>
+  <scope>test</scope>
+</dependency>
+```
+
+Gradle
+```
+testCompile 'org.assertj:assertj-core:3.8.0'
+```
 ---
 
 ## Basic assertions
