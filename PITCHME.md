@@ -1,7 +1,7 @@
 ## AssertJ
 ##### <span style="font-family:Helvetica Neue; font-weight:bold">Rich and easy to use assertions</span>
 
-website http://joel-costigliola.github.io/assertj
+http://joel-costigliola.github.io/assertj
 
 ---
 
@@ -39,10 +39,12 @@ Add assertj-core library to your test dependencies
 
 #### PB2 Test project setup
 
+PB2 Test project setup
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <ivy-module version="1.0">
-  <info module="org.assertj.handson" organisation="org.assertj" status="integration"></info>
+  <info module="my.unit.tests" organisation="orchestral" status="integration"></info>
   <configurations>
     <conf name="test"/>
   </configurations>
@@ -92,12 +94,41 @@ testCompile 'org.assertj:assertj-core:3.8.0'
 
 Note:
 Demo: 
+* no more confusion about expected vs actual
 * assertion description as()
 * chaining assertion
+* show representation ?
+
+#### Example
+
+Basic assertions example:
+
+```java
+assertThat("Gandalf")                      
+    .as("Check a famous magician name")
+    .isNotNull()                       
+    .isInstanceOf(String.class)        
+    .isNotEqualTo("Saroumane")         
+    .isEqualTo("Gandalf");             
+```
+
+@[2](describe your assertion)
+@[3-6](chain assertions)
 
 ---
 
 ## Collection assertions
+
+- Works for Iterable, arrays and Stream |
+- Allow chaining assertions  |
+- IDE friendly | 
+- Quick assertions demo |
+
+Note:
+* Stream are converted to List to allow multiple assertions since you only consume a Stream once.
+* assertion description as()
+* chaining assertion
+* show representation ?
 
 
 +++
@@ -134,6 +165,22 @@ query {
 @[4-7](config is an object field)
 
 
+
+---
+
+## Advanced assertions
+
+- Use satisfies to group logical assertions |
+- Use matches to check a logical condition |
+- Using comparators |
+- Using field by field comparison |
+
+Note:
+Demo: 
+* no more confusion about expected vs actual
+* assertion description as()
+* chaining assertion
+* show representation ?
 
 ---
 
