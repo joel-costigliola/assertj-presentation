@@ -22,7 +22,7 @@ http://joel-costigliola.github.io/assertj
 
 AssertJ is an assertion java library which:
 - provides rich assertions for common java types |
-- improves code readability thanks to its fluent API | 
+- improves test code readability with its fluent API | 
 - easy to use with your favorite IDE |
 - reports helpful error messages when assertions fail | 
 - has javadoc with code examples |
@@ -39,7 +39,7 @@ Add assertj-core library to your test dependencies
 
 #### PB2 Test project setup
 
-PB2 Test project setup
+Adding AssertJ Core to a PB2 Test project:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -61,7 +61,7 @@ PB2 Test project setup
 ```
 
 @[5](ivy test config)
-@[10-11](assertj dependency)
+@[10-11](assertj-core dependency)
 
 +++
 
@@ -88,9 +88,9 @@ testCompile 'org.assertj:assertj-core:3.8.0'
 ## Basic assertions
 
 - Just start with the Assertions class |
-- Allow chaining assertions  |
-- IDE friendly | 
-- Quick assertions demo |
+- You can chain assertions  |
+- Discover assertions code completion | 
+- Quick demo |
 
 Note:
 Demo: 
@@ -99,7 +99,9 @@ Demo:
 * chaining assertion
 * show representation ?
 
-#### Example
++++
+
+#### Examples
 
 Basic assertions example:
 
@@ -112,7 +114,8 @@ assertThat("Gandalf")
     .isEqualTo("Gandalf");             
 ```
 
-@[2](describe your assertion)
+@[1](`import static org.assertj.core.api.Assertions.assertThat;`)
+@[2](describe your assertion (to ease understand the error))
 @[3-6](chain assertions)
 
 ---
@@ -120,51 +123,71 @@ assertThat("Gandalf")
 ## Collection assertions
 
 - Works for Iterable, arrays and Stream |
-- Allow chaining assertions  |
-- IDE friendly | 
-- Quick assertions demo |
+- Different "contains" assertion flavors |
+- feature: extracting |
+- feature: filter | 
+- Quick demo |
 
 Note:
 * Stream are converted to List to allow multiple assertions since you only consume a Stream once.
-* assertion description as()
-* chaining assertion
-* show representation ?
-
+* javadoc example: http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#containsExactly-ELEMENT...-
 
 +++
 
-#### Present Source Directly From Your Repo
+#### Examples
 
-<br>
-
-Step through source code directly within your presentations.
-*No more switching* back and forth between your slideshow and your IDE!
-
-+++?code=src/elixir/monitor.ex&lang=elixir&title=Repo Source File: Elixir Snippets
-
-@[11-14](Elixir module-attributes as constants)
-@[22-28](Elixir with-statement for conciseness)
-@[171-177](Elixir case-statement pattern matching)
-@[179-185](Elixir pipe-mechanism for composing functions)=
-
-
-```js
-query {
-  connection {
-    status
-    config {
-      keyspace
-      contacts 
-    } 
-  }
-}
+```java
+final Iterable<Ring> elvesRings = newArrayList(vilya, nenya, narya);
+                                                                    
+assertThat(elvesRings)                                              
+    .isNotEmpty()                                               
+    .hasSize(3)                                                 
+    .contains(nenya, narya)                                            
+    .doesNotContain(oneRing)                                    
+    // order does not matters                                   
+    .containsOnly(nenya, vilya, narya)                          
+    // order matters                                            
+    .containsExactly(vilya, nenya, narya);                      
 ```
 
-@[2](connection is a query)
-@[3](status is a simple field)
-@[4-7](config is an object field)
+@[6](*contains* checks if the given elements are in the collection under test)
+@[9](*containsOnly* expects all the elements)
+@[9](*containsExactly* expects all the elements in the correct order)
 
++++
 
+#### Extracting feature
+
+```java
+assertThat(fellowshipOfTheRing)                       
+    .extracting("name") // or use lambda: tc -> tc.getName()
+    .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+    .doesNotContain("Sauron", "Elrond");               
+```
+@[1-2](simple data classes)
+@[3-8](init a list of famous LotR characters)
+@[10-13](let's check the names of the fellowshipOfTheRing characters)
+@[11](create a new List under test with of the names of fellowshipOfTheRing characters)
+@[12-13](assertions on the extracted names)
+
+---
+
+#### Filter feature
+
+```java
+assertThat(fellowshipOfTheRing)                                 
+    .filteredOn(tc -> tc.getRace().equals(HOBBIT))               
+    .containsOnly(sam, frodo, pippin, merry);
+
+assertThat(this.fellowshipOfTheRing)                     
+    .filteredOn(tc -> tc.getRace().equals(HOBBIT))   
+    .extracting(tc -> tc.getName())                  
+    .containsOnly("Sam", "Frodo", "Pippin", "Merry");    
+```
+@[1-2](use of a Java 8 *Predicate* to filter fellowshipOfTheRing)
+@[1-3](check it contains only Hobbits characters)
+@[5-7](combine filter and extracting FTW !)
+@[5-8](check it contains the expected Hobbit's names)
 
 ---
 
