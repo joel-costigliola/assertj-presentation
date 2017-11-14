@@ -87,17 +87,17 @@ testCompile 'org.assertj:assertj-core:3.8.0'
 
 ## Basic assertions
 
-- Just start with the Assertions class |
-- You can chain assertions  |
-- Discover assertions code completion | 
+- Start with Assertions.assertThat(stuffToTest) |
+- Discover assertions with code completion | 
+- Chain assertions |
 - Quick demo |
 
 Note:
 Demo: 
 * no more confusion about expected vs actual
 * assertion description as()
-* chaining assertion
 * show representation ?
+* IDE config to get assertThat directly
 
 +++
 
@@ -124,20 +124,21 @@ assertThat("Gandalf")
 
 - Works for Iterable, arrays and Stream |
 - Different "contains" assertion flavors |
-- feature: extracting |
-- feature: filter | 
+- feature highlight: extracting |
+- feature highlight: filter | 
 - Quick demo |
 
 Note:
 * Stream are converted to List to allow multiple assertions since you only consume a Stream once.
 * javadoc example: http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#containsExactly-ELEMENT...-
+* collections formatting goodies when too many items
 
 +++
 
 #### Examples
 
 ```java
-final Iterable<Ring> elvesRings = newArrayList(vilya, nenya, narya);
+Iterable<Ring> elvesRings = asList(vilya, nenya, narya);
                                                                     
 assertThat(elvesRings)                                              
     .isNotEmpty()                                               
@@ -146,19 +147,28 @@ assertThat(elvesRings)
     .doesNotContain(oneRing)                                    
     // order does not matters                                   
     .containsOnly(nenya, vilya, narya)                          
-    // order matters                                            
+    // order matters!
     .containsExactly(vilya, nenya, narya);                      
 ```
 
-@[6](*contains* checks if the given elements are in the collection under test)
-@[9](*containsOnly* expects all the elements)
-@[9](*containsExactly* expects all the elements in the correct order)
+@[1-3, 6](*contains* checks if the given elements are in the iterable)
+@[1-3, 8-9](*containsOnly* expects all the elements)
+@[1-3, 10-11](*containsExactly* expects all the elements in the correct order)
 
 +++
 
 #### Extracting feature
 
 ```java
+// TolkienCharacter fields: nane, age, Race
+// Race field: name
+frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+...
+boromir = new TolkienCharacter("Boromir", 37, MAN);
+
+fellowshipOfTheRing = asList(frodo, sam, merry, pippin, gandalf,
+                             legolas, gimli, aragorn, boromir);
+
 assertThat(fellowshipOfTheRing)                       
     .extracting("name") // or use lambda: tc -> tc.getName()
     .contains("Boromir", "Gandalf", "Frodo", "Legolas")
@@ -167,10 +177,10 @@ assertThat(fellowshipOfTheRing)
 @[1-2](simple data classes)
 @[3-8](init a list of famous LotR characters)
 @[10-13](let's check the names of the fellowshipOfTheRing characters)
-@[11](create a new List under test with of the names of fellowshipOfTheRing characters)
+@[10-11](create a new List to test with names of fellowshipOfTheRing characters)
 @[12-13](assertions on the extracted names)
 
----
++++
 
 #### Filter feature
 
@@ -188,6 +198,60 @@ assertThat(this.fellowshipOfTheRing)
 @[1-3](check it contains only Hobbits characters)
 @[5-7](combine filter and extracting FTW !)
 @[5-8](check it contains the expected Hobbit's names)
+
+---
+
+## Exception assertions
+
+- Boring way of testing exceptions |
+- Better way with assertThatThrownBy |
+- Better way with assertThatExceptionOfType  |
+- Better way with catchThrowable  |
+- Quick demo |
+
+Note:
+* JUnit Rule: bad because it puts the assertions before the code
+
++++
+
+#### Basic exception testing
+
+```java
+void boom() {
+  Exception cause = new Exception("let's push that red button");
+  throw new IllegalStateException("boom!", cause);
+}
+// Old school way of testing code throwing exceptions
+try {                                                              
+  boom();                                                        
+} catch (final Exception exception) {                           
+  assertThat(exception)                                          
+      .isInstanceOf(IllegalStateException.class)             
+      .hasMessage("boom!")                                   
+      .hasMessageStartingWith("boo")                         
+      .hasMessageMatching("boo..")                           
+      .hasStackTraceContaining("let's push that red button");
+}                                                                  
+```
+@[1-4](let's test this method)
+@[6-9](catch the exception and test it)
+@[10-14](some of the exception assertions)
+
++++
+
+#### Extracting feature
+
+```java
+assertThat(fellowshipOfTheRing)                       
+    .extracting("name") // or use lambda: tc -> tc.getName()
+    .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+    .doesNotContain("Sauron", "Elrond");               
+```
+@[1-2](simple data classes)
+@[3-8](init a list of famous LotR characters)
+@[10-13](let's check the names of the fellowshipOfTheRing characters)
+@[11](create a new List under test with of the names of fellowshipOfTheRing characters)
+@[12-13](assertions on the extracted names)
 
 ---
 
