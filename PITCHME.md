@@ -161,7 +161,7 @@ assertThat(elvesRings)
 #### Extracting feature
 
 ```java
-// TolkienCharacter fields: nane, age, Race
+// TolkienCharacter fields: name, age, Race
 // Race field: name
 frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
 ...
@@ -234,9 +234,9 @@ try {
 fail("Should not arrive here");                                          
 ```
 @[1-4](let's test this method)
-@[6-9](catch the exception and test it)
-@[10-11](some of the exception assertions)
-@[12-14](make the test fail if no exception was thrown)
+@[6-9, 13](catch the exception and test it)
+@[9-11](some of the exception assertions)
+@[8-14](make the test fail if no exception was thrown)
 
 +++
 
@@ -251,7 +251,7 @@ assertThatThrownBy(() -> boom())
     .hasCauseInstanceOf(RuntimeException.class)
     .hasStackTraceContaining("let's push that red button");
 ```
-@[1](Use a lambda to call the code to test)
+@[1](Use a lambda to pass the code to test)
 @[2-5](chain exception assertions)
 
 +++
@@ -272,10 +272,10 @@ assertThatIllegalStateException()
     .withMessageContaining("boo");
 ```
 @[1](Pass the expected exception type)
-@[2](Use a lambda to call the code to test)
-@[3-4](chain exception assertions)
+@[1-2](Use a lambda to pass the code to test)
+@[1-4](chain exception assertions)
 @[6-7](common exceptions comes with this pattern)
-@[8-9](usual assertions chaining)
+@[6-9](usual assertions chaining)
 
 +++
 
@@ -296,8 +296,7 @@ assertThat(thrown)
 ```
 @[1-2](GIVEN some code)
 @[3-4](WHEN calling the code)
-@[5-6](THEN an exception is caught ...)
-@[7-9](... that we can check)
+@[5-9](THEN check the caught exception is)
 
 
 ---
@@ -389,9 +388,10 @@ public void junit_soft_assertions_example() {
 
 ## Conditions
 
-- Extends AssertJ assertion |
+- Extend AssertJ assertions with conditions |
 - Similar to Hamcrest matchers |
 - Combine conditions |
+- Using Condition with collections |
 
 Note:
 * Stream are converted to List to allow multiple assertions since you only consume a Stream once.
@@ -401,47 +401,65 @@ Note:
 #### Examples
 
 ```java
-Iterable<Ring> elvesRings = asList(vilya, nenya, narya);
-                                                                    
-assertThat(elvesRings)                                              
-    .isNotEmpty()                                               
-    .hasSize(3)                                                 
-    .contains(nenya, narya)                                            
-    .doesNotContain(oneRing)                                    
-    // order does not matters                                   
-    .containsOnly(nenya, vilya, narya)                          
-    // order matters!
-    .containsExactly(vilya, nenya, narya);                      
+List<String> jedis = asList("Luke", "Yoda", "Obiwan");
+List<String> siths = asList("Sidious", "Vader", "Plagueis");
+// build condition with a Predicate and a description
+Condition<String> jedi = 
+        new Condition<>(jedis::contains, "jedi");
+Condition<String> sith = 
+        new Condition<>(siths::contains, "sith");
+
+assertThat("Yoda").is(jedi);
+assertThat("Vader").is(sith).isNot(jedi);
+
+// 'has(condition)' is an alias of 'is(condition)'
+Condition<String> jediPowers = new Condition<>(jedis::contains, "jedi powers");
+assertThat("Yoda").has(jediPowers);
+assertThat("Sponge Bob").doesNotHave(jediPowers);
 ```
 
-@[1-3, 6](*contains* checks if the given elements are in the iterable)
-@[1-3, 8-9](*containsOnly* expects all the elements)
-@[1-3, 10-11](*containsExactly* expects all the elements in the correct order)
+@[1-7](create condition with a Predicate)
+@[9-10](assertions using conditions)
+@[12-15](*has* is an alias of *is* for readability)
 
 +++
 
-#### Extracting feature
+#### Combining conditions
+
+AssertJ provides operators to combine conditions:
+- *allOf* : all conditions must be met  
+- *anyOf* : at leats one of the conditions must be met 
+- *not* : the condition must not be met 
+<br>
+```java
+assertThat("Vader").is(anyOf(jedi, sith))
+                   .is(not(jedi));
+```
+
++++
+
+#### Using Condition with collections
 
 ```java
-// TolkienCharacter fields: nane, age, Race
-// Race field: name
-frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-...
-boromir = new TolkienCharacter("Boromir", 37, MAN);
+assertThat(asList("Luke", "Yoda")).are(jedi);
+assertThat(asList("Luke", "Yoda")).have(jediPowers);
 
-fellowshipOfTheRing = asList(frodo, sam, merry, pippin, gandalf,
-                             legolas, gimli, aragorn, boromir);
+assertThat(asList("Chewbacca", "Solo")).areNot(jedi);
+assertThat(asList("Chewbacca", "Solo")).doNotHave(jediPowers);
 
-assertThat(fellowshipOfTheRing)                       
-    .extracting("name") // or use lambda: tc -> tc.getName()
-    .contains("Boromir", "Gandalf", "Frodo", "Legolas")
-    .doesNotContain("Sauron", "Elrond");               
+List<String> characters = asList("Luke", "Yoda", "Chewbacca");
+assertThat(characters).areAtLeast(2, jedi);
+assertThat(characters).haveAtLeast(2, jediPowers);
+assertThat(characters).areAtMost(2, jedi);
+assertThat(characters).haveAtMost(2, jediPowers);
+assertThat(characters).areExactly(2, jedi);
+assertThat(characters).haveExactly(2, jediPowers);
 ```
-@[1-2](simple data classes)
-@[3-8](init a list of famous LotR characters)
-@[10-13](let's check the names of the fellowshipOfTheRing characters)
-@[10-11](create a new List to test with names of fellowshipOfTheRing characters)
-@[12-13](assertions on the extracted names)
+@[1-2](check that all elements meet the condition)
+@[4-5](check that **no** elements meet the condition)
+@[7-9](check that at least 2 elements meet the condition)
+@[7, 10-11](check that at most 2 elements meet the condition)
+@[7, 12-13](check that exactly 2 elements meet the condition)
 
 +++
 
