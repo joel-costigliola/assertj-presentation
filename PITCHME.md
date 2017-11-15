@@ -386,6 +386,67 @@ public void junit_soft_assertions_example() {
 @[1-2, 12](the rule calls assertAll() for us)
 
 ---
+
+## Conditions
+
+- Extends AssertJ assertion |
+- Similar to Hamcrest matchers |
+- Combine conditions |
+
+Note:
+* Stream are converted to List to allow multiple assertions since you only consume a Stream once.
+
++++
+
+#### Examples
+
+```java
+Iterable<Ring> elvesRings = asList(vilya, nenya, narya);
+                                                                    
+assertThat(elvesRings)                                              
+    .isNotEmpty()                                               
+    .hasSize(3)                                                 
+    .contains(nenya, narya)                                            
+    .doesNotContain(oneRing)                                    
+    // order does not matters                                   
+    .containsOnly(nenya, vilya, narya)                          
+    // order matters!
+    .containsExactly(vilya, nenya, narya);                      
+```
+
+@[1-3, 6](*contains* checks if the given elements are in the iterable)
+@[1-3, 8-9](*containsOnly* expects all the elements)
+@[1-3, 10-11](*containsExactly* expects all the elements in the correct order)
+
++++
+
+#### Extracting feature
+
+```java
+// TolkienCharacter fields: nane, age, Race
+// Race field: name
+frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+...
+boromir = new TolkienCharacter("Boromir", 37, MAN);
+
+fellowshipOfTheRing = asList(frodo, sam, merry, pippin, gandalf,
+                             legolas, gimli, aragorn, boromir);
+
+assertThat(fellowshipOfTheRing)                       
+    .extracting("name") // or use lambda: tc -> tc.getName()
+    .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+    .doesNotContain("Sauron", "Elrond");               
+```
+@[1-2](simple data classes)
+@[3-8](init a list of famous LotR characters)
+@[10-13](let's check the names of the fellowshipOfTheRing characters)
+@[10-11](create a new List to test with names of fellowshipOfTheRing characters)
+@[12-13](assertions on the extracted names)
+
++++
+
+
+---
 ## Advanced assertions
 
 - Use satisfies to group logical assertions |
@@ -402,231 +463,4 @@ Demo:
 
 ---
 
-## Code Presenting
-## Static Source Blocks
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Code-Presenting) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Present Source Embedded In Your Presentation Markdown
-
-<br>
-
-Enjoy code syntax highlighting for dozens of languages powered by [highlight.js](tlhttps://highlightjs.org).
-
-+++
-
-Static Code Block: Python Snippets
-
-```python
-from time import localtime
-
-activities = {8: 'Sleeping', 9: 'Commuting', 17: 'Working',
-              18: 'Commuting', 20: 'Eating', 22: 'Resting' }
-
-time_now = localtime()
-hour = time_now.tm_hour
-
-for activity_time in sorted(activities.keys()):
-    if hour < activity_time:
-        print activities[activity_time]
-        break
-else:
-    print 'Unknown, AFK or sleeping!'
-```
-
-@[1](Python from..import statement)
-@[3-4](Python dictionary initialization block)
-@[6-7](Python working with time)
-@[9-14](Python for..else statement)
-
----
-
-
-## Image Slides
-## [ Inline ]
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Image-Slides) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Make A Visual Statement
-
-<br>
-
-Use inline images to lend   
-a *visual punch* to your slideshow presentations.
-
-
-+++
-
-<span style="color:gray; font-size:0.7em">Inline Image at <b>Absolute URL</b></span>
-
-![Image-Absolute](https://d1z75bzl1vljy2.cloudfront.net/kitchen-sink/octocat-privateinvestocat.jpg)
-
-
-<span style="color:gray; font-size: 0.5em;">the <b>Private Investocat</b> by [jeejkang](https://github.com/jeejkang)</span>
-
-
-+++
-
-<span style="color:gray; font-size:0.7em">Inline Image at GitHub Repo <b>Relative URL</b></span>
-
-![Image-Absolute](assets/octocat-de-los-muertos.jpg)
-
-<span style="color:gray; font-size:0.5em">the <b>Octocat-De-Los-Muertos</b> by [cameronmcefee](https://github.com/cameronmcefee)</span>
-
-
-+++
-
-<span style="color:gray; font-size:0.7em"><b>Animated GIFs</b> Work Too!</span>
-
-![Image-Relative](https://d1z75bzl1vljy2.cloudfront.net/kitchen-sink/octocat-daftpunkocat.gif)
-
-<span style="color:gray; font-size:0.5em">the <b>Daftpunktocat-Guy</b> by [jeejkang](https://github.com/jeejkang)</span>
-
----
-
-## Image Slides
-## [ Background ]
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Image-Slides#background) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Make A Bold Visual Statement
-
-<br>
-
-Use high-resolution background images   
-for *maximum impact*.
-
-+++?image=https://d1z75bzl1vljy2.cloudfront.net/kitchen-sink/victory.jpg
-
-+++?image=https://d1z75bzl1vljy2.cloudfront.net/kitchen-sink/127.jpg
-
-
----
-
-## Slide Fragments
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Fragment-Slides) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Reveal Slide Concepts Piecemeal
-
-<br>
-
-Step through slide content in sequence   
-to *slowly reveal* the bigger picture.
-
-+++
-
-- Java
-- Groovy |
-- Kotlin |
-- Scala  |
-- The JVM rocks! |
-
-+++
-
-<table>
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th> 
-    <th>Age</th>
-  </tr>
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <td>25</td>
-  </tr>
-  <tr class="fragment">
-    <td>Eve</td>
-    <td>Jackson</td>
-    <td>94</td>
-  </tr>
-  <tr class="fragment">
-    <td>John</td>
-    <td>Doe</td>
-    <td>43</td>
-  </tr>
-</table>
-
----
-## <span style="text-transform: none">PITCHME.yaml</span> Settings
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Slideshow-Settings) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Stamp Your Own Look and Feel
-
-<br>
-
-Set a default theme, custom logo, custom css, background image, and preferred code syntax highlighting style.
-
-+++
-
-#### Customize Slideshow Behavior
-
-<br>
-
-Enable auto-slide with custom slide intervals, presentation looping, and RTL flow.
-
-
----
-## Slideshow Keyboard Controls
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Slideshow-Fullscreen-Mode) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Try Out These Great Features Now!
-
-<br>
-
-| Mode | On Key | Off Key |
-| ---- | :------: | :--------: |
-| Fullscreen | F |  Esc |
-| Overview | O |  O |
-| Blackout | B |  B |
-| Help | ? |  Esc |
-
-
----
-
-## GitPitch Social
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Slideshow-GitHub-Badge) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Slideshows Designed For Sharing
-
-<br>
-
-- View any slideshow at its public URL
-- [Promote](https://github.com/gitpitch/gitpitch/wiki/Slideshow-GitHub-Badge) any slideshow using a GitHub badge
-- [Embed](https://github.com/gitpitch/gitpitch/wiki/Slideshow-Embedding) any slideshow within a blog or website
-- [Share](https://github.com/gitpitch/gitpitch/wiki/Slideshow-Sharing) any slideshow on Twitter, LinkedIn, etc
-- [Print](https://github.com/gitpitch/gitpitch/wiki/Slideshow-Printing) any slideshow as a PDF document
-- [Download and present](https://github.com/gitpitch/gitpitch/wiki/Slideshow-Offline) any slideshow offline
 
