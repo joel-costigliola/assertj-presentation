@@ -126,7 +126,6 @@ assertThat("Gandalf")
 - Different "contains" assertion flavors |
 - feature highlight: extracting |
 - feature highlight: filter | 
-- Quick demo |
 
 Note:
 * Stream are converted to List to allow multiple assertions since you only consume a Stream once.
@@ -203,18 +202,17 @@ assertThat(this.fellowshipOfTheRing)
 
 ## Exception assertions
 
-- Boring way of testing exceptions |
+- Old school way of testing exceptions |
 - Better way with assertThatThrownBy |
 - Better way with assertThatExceptionOfType  |
 - Better way with catchThrowable  |
-- Quick demo |
 
 Note:
 * JUnit Rule: bad because it puts the assertions before the code
 
 +++
 
-#### Basic exception testing
+#### Basic exception testing (1)
 
 ```java
 void boom() {
@@ -227,31 +225,76 @@ try {
 } catch (final Exception exception) {                           
   assertThat(exception)                                          
       .isInstanceOf(IllegalStateException.class)             
-      .hasMessage("boom!")                                   
-      .hasMessageStartingWith("boo")                         
-      .hasMessageMatching("boo..")                           
-      .hasStackTraceContaining("let's push that red button");
-}                                                                  
+      .hasMessage("boom!");
+  return;
+}
+fail("Should not arrive here");                                          
 ```
 @[1-4](let's test this method)
 @[6-9](catch the exception and test it)
-@[10-14](some of the exception assertions)
+@[10-11](some of the exception assertions)
+@[12-14](make the test fail if no exception was thrown)
 
 +++
 
-#### Extracting feature
+#### Better exception testing (2)
+
+Use *assertThatThrownBy* 
 
 ```java
-assertThat(fellowshipOfTheRing)                       
-    .extracting("name") // or use lambda: tc -> tc.getName()
-    .contains("Boromir", "Gandalf", "Frodo", "Legolas")
-    .doesNotContain("Sauron", "Elrond");               
+assertThatThrownBy(() -> boom())
+    .isInstanceOf(IllegalStateException.class)
+    .hasMessage("%sm!", "boo")
+    .hasCauseInstanceOf(RuntimeException.class)
+    .hasStackTraceContaining("let's push that red button");
 ```
-@[1-2](simple data classes)
-@[3-8](init a list of famous LotR characters)
-@[10-13](let's check the names of the fellowshipOfTheRing characters)
-@[11](create a new List under test with of the names of fellowshipOfTheRing characters)
-@[12-13](assertions on the extracted names)
+@[1](Use a lambda to call the code to test)
+@[2-5](chain exception assertions)
+
++++
+
+#### Better exception testing (3)
+
+Use *assertThatExceptionOfType* 
+
+```java
+assertThatExceptionOfType(IllegalStateException.class)
+    .isThrownBy(() -> boom())
+    .withMessage("boom!")
+    .withCauseInstanceOf(RuntimeException.class);
+
+assertThatIllegalStateException()
+    .isThrownBy(() -> boom())
+    .withCauseInstanceOf(RuntimeException.class)
+    .withMessageContaining("boo");
+```
+@[1](Pass the expected exception type)
+@[2](Use a lambda to call the code to test)
+@[3-4](chain exception assertions)
+@[6-7](common exceptions comes with this pattern)
+@[8-9](chain assertions)
+
++++
+
+#### BDD exception testing BDD (4)
+
+Use *catchThrowable* 
+
+```java
+// GIVEN
+ThrowingCallable codeCall = () -> boom();
+// WHEN
+final Throwable thrown = catchThrowable(codeCall);
+// THEN
+assertThat(thrown)
+    .isInstanceOf(IllegalStateException.class)
+    .hasMessage("boom!")
+    .hasNoSuppressedExceptions();
+```
+@[1-2](GIVEN some code)
+@[3-4](WHEN calling the code)
+@[5-6](THEN an exception is caught)
+@[7-9](chain assertions)
 
 ---
 
