@@ -98,6 +98,8 @@ Demo:
 * assertion description as()
 * show representation ?
 * IDE config to get assertThat directly
+* BDDAssertions for then
+* implement WithAssertions 
 
 +++
 
@@ -209,6 +211,7 @@ assertThat(this.fellowshipOfTheRing)
 
 Note:
 * JUnit Rule: bad because it puts the assertions before the code
+* assertThatCode(() -> {}).doesNotThrowAnyException();
 
 +++
 
@@ -272,7 +275,7 @@ assertThatIllegalStateException()
 @[2](Use a lambda to call the code to test)
 @[3-4](chain exception assertions)
 @[6-7](common exceptions comes with this pattern)
-@[8-9](chain assertions)
+@[8-9](usual assertions chaining)
 
 +++
 
@@ -293,11 +296,96 @@ assertThat(thrown)
 ```
 @[1-2](GIVEN some code)
 @[3-4](WHEN calling the code)
-@[5-6](THEN an exception is caught)
-@[7-9](chain assertions)
+@[5-6](THEN an exception is caught ...)
+@[7-9](... that we can check)
+
 
 ---
 
+## Soft assertions
+
+- Record all assertion errors (don't fail at the first one) |
+- Easy soft assertions with JUnitSoftAssertions rule |
+- BDD flavor with JUnitBDDSoftAssertions |
+
+Note:
+Demo: 
+* BDD soft assertions
+
++++
+
+#### Soft assertions example
+
+```java
+final SoftAssertions softly = new SoftAssertions();
+
+softly.assertThat("Michael Jordan - Bulls")
+          .startsWith("Mike")
+          .contains("Lakers")
+          .endsWith("Chicago");
+
+// don't forget to call assertAll() !
+softly.assertAll();
+```
+
+@[1](we need a SoftAssertions wrapper)
+@[3-6](record potential assertion failures)
+@[8-9](report assertion failures if any)
+
++++
+
+#### Assertions errors report
+
+```
+The following 3 assertions failed:
+1) 
+Expecting:
+ <"Michael Jordan - Bulls">
+to start with:
+ <"Mike">
+
+2) 
+Expecting:
+ <"Michael Jordan - Bulls">
+to contain:
+ <"Lakers"> 
+3) 
+Expecting:
+ <"Michael Jordan - Bulls">
+to end with:
+ <"Chicago">
+```
+
+@[1](number of failures)
+@[2-6](first assertion error)
+@[8-12](second assertion error)
+@[13-17](last assertion error)
+
++++
+
+#### JUnit Soft assertions example
+
+```java
+@Rule
+public JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
+@Test
+public void junit_soft_assertions_example() {
+
+  softly.assertThat("Michael Jordan - Bulls")
+            .startsWith("Mike")
+            .contains("Lakers")
+            .endsWith("Chicago");
+
+  // no need to call assertAll() ! :)
+}
+```
+
+@[1-2](init the JUnit rule)
+@[4-10, 13](use soft assertions as usual)
+@[1-2, 12](the rule calls assertAll() for us)
+
+---
 ## Advanced assertions
 
 - Use satisfies to group logical assertions |
@@ -311,110 +399,6 @@ Demo:
 * assertion description as()
 * chaining assertion
 * show representation ?
-
----
-
-## GraphQL Schema
-
-- Schema = data structures + mutations  |
-- Is the API the client needs from the server |
-- Easily mocked by the client |
-- Discoverable at runtime |  
-
----
-
-## Query
-<span style="font-size:0.6em; color:gray">Available bottom-left of screen.</span> |
-<span style="font-size:0.6em; color:gray">Start switching themes right now!</span>
-
----
-
-## Mutation
-For the *best viewing experience*   
-press **F** key to go fullscreen.
-
----
-
-## Advantages over REST
-For the *best viewing experience*   
-press **F** key to go fullscreen.
-
-- allow to retrieve multiple data structures with one "composite" query
-- the client can select what to retrieve
-- tooling
-
----
-
-## Design considerations
-
-- Use coarse grained data structures as the client can select a subpart of them
-- Use rich data struxcure to describe mutation result (not a simple error code !)
-
----
-
-## Pain points
-
-- Java implementation constraints 
-- Mutations 
-
----
-
-## Demo
-For the *best viewing experience*   
-press **F** key to go fullscreen.
-
----
-
-
-## Conclusion
-
-Good way for client and server teams to agree on the API 
-Easy to explore the schema and run queries with the existing tooling
-Overall a good choice, better suited than REST API for our use case
-
----
-
-## Markdown Slides
-<span style="font-size:0.6em; color:gray">Press Down key for details.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Slide-Markdown) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-
-+++
-
-#### Use GitHub Flavored Markdown
-#### For Slide Content Creation
-
-<br>
-
-The *same syntax* you use to create project   
-**READMEs** and **Wikis** for your Git repos.
-
----
-
-## Code Presenting
-## Repo Source Files
-<span style="font-size:0.6em; color:gray">Press Down key for examples.</span> |
-<span style="font-size:0.6em; color:gray">See [GitPitch Wiki](https://github.com/gitpitch/gitpitch/wiki/Code-Presenting) for details.</span>
-
-![Press Down Key](assets/down-arrow.png)
-
-+++
-
-#### Present Source Directly From Your Repo
-
-<br>
-
-Step through source code directly within your presentations.
-*No more switching* back and forth between your slideshow and your IDE!
-
-+++?code=src/elixir/monitor.ex&lang=elixir&title=Repo Source File: Elixir Snippets
-
-@[11-14](Elixir module-attributes as constants)
-@[22-28](Elixir with-statement for conciseness)
-@[171-177](Elixir case-statement pattern matching)
-@[179-185](Elixir pipe-mechanism for composing functions)=
 
 ---
 
