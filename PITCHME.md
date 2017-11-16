@@ -12,7 +12,7 @@ http://joel-costigliola.github.io/assertj
 - Assertions quick tour |
 - Soft assertions |
 - Using conditions |
-- AssertJ extensions |
+- AssertJ modules |
 - Advanced stuff |
 - Hands on ! |
 
@@ -462,6 +462,75 @@ assertThat(characters).haveExactly(2, jediPowers);
 @[7, 12-13](check that exactly 2 elements meet the condition)
 
 +++
+
+
+---
+## AssertJ modules
+
+AssertJ has modules for:
+- Guava: assertj-guava |
+- Joda Time: assertj-joda-time |
+- Relational DB: assertj-db |
+- Neo4J : assertj-neo4j |
+- Swing : assertj-swing |
+
+Note:
+* only showing guava and DB assertions
+
++++
+
+#### assertj-guava
+
+Provides assertions for:<br>
+ *Multimap*, *Range*, *RangeMap*, *Table* and *Multiset*
+
+```java
+import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.api.Assertions.entry;
+
+Multimap<String, String> nbaTeams = ArrayListMultimap.create();
+nbaTeams.putAll("Lakers", list("Kobe Bryant", "Magic Johnson"));
+nbaTeams.putAll("Spurs", list("Tony Parker", "Tim Duncan"));
+
+assertThat(nbaTeams).hasSize(6);
+                    .containsKeys("Lakers", "Spurs")
+                    .contains(entry("Lakers", "Kobe Bryant"), 
+                              entry("Spurs", "Tim Duncan"));
+```
+Note:
+* check the doc at http://joel-costigliola.github.io/assertj/assertj-guava.html
+
++++
+
+#### assertj-db
+
+Provides a fluent API to test SQL Databases
+
+```java
+import static org.assertj.db.api.Assertions.assertThat;
+
+Request request = new Request(source, "select * from albums");
+
+// assertions on a column (partial results for brevety)
+assertThat(request).column("title")
+    .value().isEqualTo("Boy")
+    .value().isEqualTo("October")
+    .value().isEqualTo("The Joshua Tree")
+    .value().isEqualTo("Zooropa");
+
+// On the values of a row by using the index of the row
+assertThat(request).row(1)
+    .value().isEqualTo(2)
+    .value().isEqualTo(DateValue.of(1981, 10, 12))
+    .value().isEqualTo("October");
+```
+@[1](import assertj-db assertThat)
+@[3](let's test this request/query)
+@[5-10](check the 'title' column)
+@[11-16](check the second row)
+
+Note:
+* many other assertions - check the doc at http://joel-costigliola.github.io/assertj/assertj-db.html
 
 
 ---
