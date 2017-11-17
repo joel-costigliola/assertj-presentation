@@ -190,7 +190,7 @@ assertThat(fellowshipOfTheRing)
     .filteredOn(tc -> tc.getRace().equals(HOBBIT))               
     .containsOnly(sam, frodo, pippin, merry);
 
-assertThat(this.fellowshipOfTheRing)                     
+assertThat(fellowshipOfTheRing)                     
     .filteredOn(tc -> tc.getRace().equals(HOBBIT))   
     .extracting(tc -> tc.getName())                  
     .containsOnly("Sam", "Frodo", "Pippin", "Merry");    
@@ -536,10 +536,8 @@ Note:
 ---
 ## Advanced assertions
 
-- Use satisfies to group logical assertions |
-- Use matches to check a logical condition |
 - Using comparators |
-- Using field by field comparison |
+- Using recursive field by field comparison |
 
 Note:
 Demo: 
@@ -547,6 +545,50 @@ Demo:
 * assertion description as()
 * chaining assertion
 * show representation ?
+
++++
+
+#### Using comparators
+
+Specify your own comparator when evaluating assertions.
+
+```java
+// standard comparison : frodo is not equal to sam
+assertThat(frodo).isNotEqualTo(sam);
+
+Comparator<TolkienCharacter> raceComparator 
+     = (tc1, tc2) -> tc1.getRace().compareTo(tc2.getRace());
+
+assertThat(frodo)
+    .usingComparator(raceComparator)
+     // succeeds as we compare character's race only
+    .isEqualTo(sam)
+    .isIn(merry, pippin, sam);
+```
+@[1-2](TolkienCharacter#equals checks name, age and race)
+@[4-5](define a Race comparator)
+@[7-8](specify to use the Race comparator)
+@[7-11](all subsequent assertions use the Race comparator)
+
++++
+
+#### Using comparators with collections
+
+Specify an element comparator for collection assertions
+
+```java
+// standard comparison : obviously fails !
+assertThat(fellowshipOfTheRing).contains(sauron);
+
+// but with race only comparison
+assertThat(fellowshipOfTheRing)
+    .usingElementComparator(raceComparator)
+    // succeeds because Sauron is a Maia like Gandalf
+    .contains(gandalf, sauron);
+```
+@[1-2]()
+@[4-6](specify to use a Race comparator on elements)
+@[4-8](elements are compared with the Race comparator)
 
 ---
 
