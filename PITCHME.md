@@ -534,10 +534,11 @@ Note:
 
 ---
 
-## Advanced assertions
+## Advanced topics
 
 - Using comparators |
 - Using recursive field by field comparison |
+- Custom/domain assertions |
 
 Note:
 - no more confusion about expected vs actual
@@ -625,7 +626,60 @@ assertThat(asList(jon, sam))
 @[14-16](compare elements field by field recursively)
 
 Note:
-- nice error message whowing the path and value of non matching fields 
+- nice error message showing the path and value of non matching fields 
+- register comparators by field or type
+
++++
+
+#### Custom domain assertions
+
+Express assertions in the domain language: 
+- make the assertions code more readable
+- domain specific error messages
+
++++
+
+#### Example
+
+```java
+frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+
+// domain assertion FTW !
+assertThat(frodo).hasName("Frodo")
+                 .hasAge(33)
+                 .hasRace(Race.HOBBIT);
+```
+
+Note:
+- error message mention the name 
+
++++
+
+#### Writing domain assertions
+
+- extends *AbstractAssert*
+- add a method per assertion
+
++++?code=src/TolkienCharacterAssert.java&lang=java&title=TolkienCharacter assertions
+
+@[27-28](inherit *AbstractAssert*)
+@[51-53](provide an *assertThat* method)
+@[63-72](specific assertion for name)
+
++++
+
+#### Generate domain assertions
+
+- Writing assertions requires (too much) work
+- Generate assertions based on class properties
+- Maven plugin
+- Demo
+
+Note:
+- http://joel-costigliola.github.io/assertj/assertj-assertions-generator.html
+- works for external libraries
+- generics not supported
+- best effort to get custom assertions, you might want to enrich them
 
 ---
 
