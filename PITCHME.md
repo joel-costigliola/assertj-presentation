@@ -532,19 +532,18 @@ assertThat(request).row(1)
 Note:
 * many other assertions - check the doc at http://joel-costigliola.github.io/assertj/assertj-db.html
 
-
 ---
+
 ## Advanced assertions
 
 - Using comparators |
 - Using recursive field by field comparison |
 
 Note:
-Demo: 
-* no more confusion about expected vs actual
-* assertion description as()
-* chaining assertion
-* show representation ?
+- no more confusion about expected vs actual
+- assertion description as()
+- chaining assertion
+- show representation ?
 
 +++
 
@@ -590,6 +589,43 @@ assertThat(fellowshipOfTheRing)
 @[4-6](specify to use a Race comparator on elements)
 @[4-8](elements are compared with the Race comparator)
 
----
++++
 
+#### Recursive field by field comparison
+
+Useful when: 
+- comparing classes not overriding *equals*
+- comparing data structures
+- supports properties and private fields 
+
++++
+
+#### Example
+
+```java
+Dude jon = new Dude("Jon", 1.2);
+Dude sam = new Dude("Sam", 1.3);
+jon.friend = sam;
+sam.friend = jon;
+
+Dude jonClone = new Dude("Jon", 1.2);
+Dude samClone = new Dude("Sam", 1.3);
+jonClone.friend = samClone;
+samClone.friend = jonClone;
+
+assertThat(jon)
+    .isEqualToComparingFieldByFieldRecursively(jonClone);
+
+assertThat(asList(jon, sam))
+    .usingRecursiveFieldByFieldElementComparator()
+    .contains(jonClone, samClone);
+```
+@[1-9](data classes without equals)
+@[1-12](compare *jon* with *jonClone* field by field recursively)
+@[14-16](compare elements field by field recursively)
+
+Note:
+- nice error message whowing the path and value of non matching fields 
+
+---
 
