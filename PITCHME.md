@@ -3,6 +3,9 @@
 
 http://joel-costigliola.github.io/assertj
 
+Mentionned in Thoughtworks radar! :)
+https://www.thoughtworks.com/radar/languages-and-frameworks/assertj
+
 ---
 
 ## Agenda
@@ -12,6 +15,7 @@ http://joel-costigliola.github.io/assertj
 - Assertions quick tour |
 - Soft assertions |
 - Using conditions |
+- Assumptions |
 - AssertJ modules |
 - Advanced stuff |
 - Hands on ! |
@@ -298,6 +302,8 @@ assertThat(thrown)
 @[3-4](WHEN calling the code)
 @[5-9](THEN check the caught exception is)
 
+Note:
+* use `catchThrowableOfType` to get the actual `Throwable` type
 
 ---
 
@@ -462,6 +468,41 @@ assertThat(characters).haveExactly(2, jediPowers);
 @[7, 12-13](check that exactly 2 elements meet the condition)
 
 +++
+
+---
+
+## Assumptions
+
+- Allows to skip tests when assumptions are not met |
+- Assumptions API is similar to Assertions API |
+
++++
+
+#### Examples
+
+```java
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assumptions.assumeThat;
+
+@Test
+public void should_be_skipped_as_assumption_is_not_met() {
+  assumeThat(fellowshipOfTheRing).contains(sauron);
+  // never executed, the whole test is skipped !
+  assertThat(true).isFalse();
+}
+
+@Test
+public void should_be_executed_as_assumption_is_met() {
+  assumeThat(fellowshipOfTheRing).contains(frodo);
+  // executed, can succeed or fail like any assertions
+  assertThat(frodo.getRace()).isEqualTo(HOBBIT);
+}
+```
+
+@[1](static import `assumeThat` from the `Assumptions` class)
+@[6](an assumption that is never met)
+@[6-8](the assertions is not executed since the assumption was not met)
+@[11-16](the assertion is executed since the assumption was met)
 
 
 ---
