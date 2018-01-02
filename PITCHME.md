@@ -3,8 +3,8 @@
 
 http://joel-costigliola.github.io/assertj
 
-Mentionned in Thoughtworks radar! :)
-https://www.thoughtworks.com/radar/languages-and-frameworks/assertj
+Mentioned in [Thoughtworks radar](https://www.thoughtworks.com/radar/languages-and-frameworks/assertj)! :)
+
 
 ---
 
@@ -56,7 +56,7 @@ Adding AssertJ Core to a PB2 Test project:
   </publications>
   <dependencies>
     <dependency conf="test->nodist" name="assertj-core" 
-                org="assertj" rev="3.8.0"/>
+                org="assertj" rev="3.9.0"/>
     <!-- other usual test dependencies -->
     <dependency conf="test->nodist" org="bundle" name="org.junit" rev="4.12.0"/>
     <dependency conf="test->nodist" org="bundle" name="org.mockito" rev="1.9.5"/>
@@ -77,14 +77,14 @@ Maven
 <dependency>
   <groupId>org.assertj</groupId>
   <artifactId>assertj-core</artifactId>
-  <version>3.8.0</version>
+  <version>3.9.0</version>
   <scope>test</scope>
 </dependency>
 ```
 
 Gradle
 ```
-testCompile 'org.assertj:assertj-core:3.8.0'
+testCompile 'org.assertj:assertj-core:3.9.0'
 ```
 
 ---
@@ -128,7 +128,7 @@ assertThat("Gandalf")
 
 ## Collection assertions
 
-- Works for Iterable, arrays and Stream |
+- Works for Iterable, array and Stream |
 - Different "contains" assertion flavors |
 - feature highlight: extracting |
 - feature highlight: filter | 
@@ -150,14 +150,14 @@ assertThat(elvesRings)
     .hasSize(3)                                                 
     .contains(nenya, narya)                                            
     .doesNotContain(oneRing)                                    
-    // order does not matters                                   
+    // order does not matters nor duplicates                                   
     .containsOnly(nenya, vilya, narya)                          
     // order matters!
     .containsExactly(vilya, nenya, narya);                      
 ```
 
 @[1-3, 6](*contains* checks if the given elements are in the iterable)
-@[1-3, 8-9](*containsOnly* expects all the elements)
+@[1-3, 8-9](*containsOnly* expects all the elements and ignores duplicates)
 @[1-3, 10-11](*containsExactly* expects all the elements in the correct order)
 
 +++
@@ -171,8 +171,8 @@ frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
 ...
 boromir = new TolkienCharacter("Boromir", 37, MAN);
 
-fellowshipOfTheRing = asList(frodo, sam, merry, pippin, gandalf,
-                             legolas, gimli, aragorn, boromir);
+fellowshipOfTheRing = list(frodo, sam, merry, pippin, gandalf,
+                           legolas, gimli, aragorn, boromir);
 
 assertThat(fellowshipOfTheRing)                       
     .extracting("name") // or use lambda: tc -> tc.getName()
@@ -181,9 +181,9 @@ assertThat(fellowshipOfTheRing)
 ```
 @[1-2](simple data classes)
 @[3-8](init a list of famous LotR characters)
-@[10-13](let's check the names of the fellowshipOfTheRing characters)
+@[7-13](let's check the names of the fellowshipOfTheRing characters)
 @[10-11](create a new List to test with names of fellowshipOfTheRing characters)
-@[12-13](assertions on the extracted names)
+@[10-13](assertions on the extracted names)
 
 +++
 
@@ -439,7 +439,7 @@ AssertJ provides operators to combine conditions:
 <br>
 ```java
 assertThat("Vader").is(anyOf(jedi, sith))
-                   .is(not(jedi));
+                    .is(not(jedi));
 ```
 
 +++
@@ -467,14 +467,12 @@ assertThat(characters).haveExactly(2, jediPowers);
 @[7, 10-11](check that at most 2 elements meet the condition)
 @[7, 12-13](check that exactly 2 elements meet the condition)
 
-+++
-
 ---
 
 ## Assumptions
 
 - Allows to skip tests when assumptions are not met |
-- Assumptions API is similar to Assertions API |
+- The Assumption API is similar to the Assertion API |
 
 +++
 
@@ -499,10 +497,10 @@ public void should_be_executed_as_assumption_is_met() {
 }
 ```
 
-@[1](static import `assumeThat` from the `Assumptions` class)
-@[6](an assumption that is never met)
-@[6-8](the assertions is not executed since the assumption was not met)
-@[11-16](the assertion is executed since the assumption was met)
+@[2](static import assumeThat from the Assumptions class)
+@[3-6,9](an assumption that is never met)
+@[3-9](the assertions is not executed as the assumption was not met)
+@[11-16](the assertion is executed as the assumption was met)
 
 
 ---
@@ -711,10 +709,10 @@ Note:
 
 #### Generate domain assertions
 
-- Writing assertions requires (too much) work
-- Generate assertions based on class properties
-- Maven plugin
-- Demo
+- Writing assertions requires (too much) work |
+- Generate assertions based on class properties |
+- Assertion generator maven plugin |
+- Demo |
 
 Note:
 - http://joel-costigliola.github.io/assertj/assertj-assertions-generator.html
@@ -724,3 +722,8 @@ Note:
 
 ---
 
+## Final words 
+
+- Give it a try!
+- Contact me for help
+- Contribute to make it even better
