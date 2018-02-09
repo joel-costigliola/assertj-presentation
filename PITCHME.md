@@ -3,8 +3,8 @@
 
 http://joel-costigliola.github.io/assertj
 
-Mentioned in [Thoughtworks radar](https://www.thoughtworks.com/radar/languages-and-frameworks/assertj)! :)
-
+Note:
+- mentioned in [Thoughtworks radar](https://www.thoughtworks.com/radar/languages-and-frameworks/assertj)
 
 ---
 
@@ -15,10 +15,18 @@ Mentioned in [Thoughtworks radar](https://www.thoughtworks.com/radar/languages-a
 - Assertions quick tour |
 - Soft assertions |
 - Using conditions |
+- Hands on ! |
+
++++
+
+## Agenda - advanced session
+
 - Assumptions |
 - AssertJ modules |
-- Advanced stuff |
-- Hands on ! |
+- Using comparators |
+- Field by field comparison |
+- Custom assertions |
+- Custom assertions generator |
 
 ---
 
@@ -36,8 +44,6 @@ AssertJ is an assertion java library which:
 ## Quick start
 
 Add assertj-core library to your test dependencies 
-
-![Press Down Key](assets/down-arrow.png)
 
 +++
 
@@ -727,3 +733,6 @@ Note:
 - Give it a try!
 - Contact me for help
 - Contribute to make it even better
+
+Note:
+- What's next for AssertJ: full assertions documentation, better recursive API, java 9 and junit 5 support.
