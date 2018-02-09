@@ -27,6 +27,7 @@ Note:
 - Field by field comparison |
 - Custom assertions |
 - Custom assertions generator |
+- Hands on ! |
 
 ---
 
@@ -127,8 +128,8 @@ assertThat("Gandalf")
 ```
 
 @[1](`import static org.assertj.core.api.Assertions.assertThat;`)
-@[2](describe your assertion (to ease understand the error))
-@[3-6](chain assertions)
+@[1-2](describe your assertion (to ease understand the error))
+@[1-6](chain assertions)
 
 ---
 
@@ -177,7 +178,7 @@ frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
 ...
 boromir = new TolkienCharacter("Boromir", 37, MAN);
 
-fellowshipOfTheRing = list(frodo, sam, merry, pippin, gandalf,
+fellowshipOfTheRing= list(frodo, sam, merry, pippin, gandalf,
                            legolas, gimli, aragorn, boromir);
 
 assertThat(fellowshipOfTheRing)                       
@@ -185,11 +186,11 @@ assertThat(fellowshipOfTheRing)
     .contains("Boromir", "Gandalf", "Frodo", "Legolas")
     .doesNotContain("Sauron", "Elrond");               
 ```
-@[1-2](simple data classes)
-@[3-8](init a list of famous LotR characters)
-@[7-13](let's check the names of the fellowshipOfTheRing characters)
-@[10-11](create a new List to test with names of fellowshipOfTheRing characters)
-@[10-13](assertions on the extracted names)
+@[1-2](TolkienCharacter is a simple data class)
+@[1-8](init a list of famous LotR characters)
+@[1-13](let's check the names of the fellowshipOfTheRing characters)
+@[1-11](create a new List to test with names of fellowshipOfTheRing characters)
+@[1-13](assertions on the extracted names)
 
 +++
 
@@ -220,6 +221,7 @@ assertThat(fellowshipOfTheRing)
 - Better way with catchThrowable  |
 
 Note:
+* there is a better way / there are better ways!
 * JUnit Rule: bad because it puts the assertions before the code
 * assertThatCode(() -> {}).doesNotThrowAnyException();
 
@@ -229,7 +231,7 @@ Note:
 
 ```java
 void boom() {
-  Exception cause = new Exception("let's push that red button");
+  Exception cause = new Exception("red button pushed");
   throw new IllegalStateException("boom!", cause);
 }
 // Old school way of testing code throwing exceptions
@@ -244,9 +246,9 @@ try {
 fail("Should not arrive here");                                          
 ```
 @[1-4](let's test this method)
-@[6-9, 13](catch the exception and test it)
-@[9-11](some of the exception assertions)
-@[8-14](make the test fail if no exception was thrown)
+@[1-9, 13](catch the exception and test it)
+@[1-11](some of the exception assertions)
+@[1-14](make the test fail if no exception was thrown)
 
 +++
 
@@ -259,10 +261,10 @@ assertThatThrownBy(() -> boom())
     .isInstanceOf(IllegalStateException.class)
     .hasMessage("%sm!", "boo")
     .hasCauseInstanceOf(RuntimeException.class)
-    .hasStackTraceContaining("let's push that red button");
+    .hasStackTraceContaining("red button");
 ```
-@[1](Use a lambda to pass the code to test)
-@[2-5](chain exception assertions)
+@[1](Pass the code to test with a lambda)
+@[1-5](Chain exception assertions)
 
 +++
 
@@ -283,9 +285,9 @@ assertThatIllegalStateException()
 ```
 @[1](Pass the expected exception type)
 @[1-2](Use a lambda to pass the code to test)
-@[1-4](chain exception assertions)
-@[6-7](common exceptions comes with this pattern)
-@[6-9](usual assertions chaining)
+@[1-4](Chain exception assertions)
+@[1-7](Common exceptions comes with this pattern)
+@[1-9](Usual assertions chaining)
 
 +++
 
@@ -305,8 +307,8 @@ assertThat(thrown)
     .hasNoSuppressedExceptions();
 ```
 @[1-2](GIVEN some code)
-@[3-4](WHEN calling the code)
-@[5-9](THEN check the caught exception is)
+@[1-4](WHEN calling the code)
+@[1-9](THEN check the caught exception)
 
 Note:
 * use `catchThrowableOfType` to get the actual `Throwable` type
@@ -340,8 +342,8 @@ softly.assertAll();
 ```
 
 @[1](we need a SoftAssertions wrapper)
-@[3-6](record potential assertion failures)
-@[8-9](report assertion failures if any)
+@[1-6](record potential assertion failures)
+@[1-9](report assertion failures if any)
 
 +++
 
@@ -393,8 +395,8 @@ public void junit_soft_assertions_example() {
 ```
 
 @[1-2](init the JUnit rule)
-@[4-10, 13](use soft assertions as usual)
-@[1-2, 12](the rule calls assertAll() for us)
+@[1-10, 13](use soft assertions as usual)
+@[1-13](the rule calls assertAll() for us)
 
 ---
 
@@ -431,8 +433,8 @@ assertThat("Sponge Bob").doesNotHave(jediPowers);
 ```
 
 @[1-7](create condition with a Predicate)
-@[9-10](assertions using conditions)
-@[12-15](*has* is an alias of *is* for readability)
+@[1-10](assertions using conditions)
+@[1-15](*has* is an alias of *is* for readability)
 
 +++
 
@@ -445,7 +447,7 @@ AssertJ provides operators to combine conditions:
 <br>
 ```java
 assertThat("Vader").is(anyOf(jedi, sith))
-                    .is(not(jedi));
+                   .is(not(jedi));
 ```
 
 +++
