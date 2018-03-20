@@ -738,3 +738,18 @@ Note:
 
 Note:
 - What's next for AssertJ: full assertions documentation, better recursive API, java 9 and junit 5 support.
+
++++
+
+#### poster code
+
+```java
+List<TolkienCharacter> hobbits = asList(frodo, sam, pippin, merry);
+
+assertThat(hobbits).hasSize(4)
+                   .contains(frodo, sam)
+                   .doesNotContain(gandalf, sauron)
+                   .allMatch(character -> character.getRace() == HOBBIT)
+                   .extracting(TolkienCharacter::getRace)
+                   .containsOnly(HOBBIT);
+```
