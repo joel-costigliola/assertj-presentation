@@ -99,9 +99,9 @@ testCompile 'org.assertj:assertj-core:3.9.1'
 
 ## Basic assertions
 
-- Start with Assertions.assertThat(stuffToTest) |
-- Discover assertions with code completion | 
-- Chain assertions |
+- Start with Assertions.assertThat(stuffToTest) 
+- Discover assertions with code completion 
+- Chain assertions 
 
 Note:
 Demo: 
@@ -137,7 +137,7 @@ assertThat("Gandalf")
 
 - Works for Iterable, array and Stream |
 - Different "contains" assertion flavors |
-- features highlight: extracting and filter |
+- Highlight: extracting and filter features |
 
 Note:
 * Stream are converted to List to allow multiple assertions since you only consume a Stream once.
@@ -162,9 +162,9 @@ assertThat(elvesRings)
     .containsExactly(vilya, nenya, narya);                      
 ```
 
-@[1-3, 6](*contains* checks if the given elements are in the iterable)
-@[1-3, 8-9](*containsOnly* expects all the elements and ignores duplicates)
-@[1-3, 10-11](*containsExactly* expects all the elements in the correct order)
+@[1-7](common collection assertions)
+@[1-9](*containsOnly* expects all the elements and ignores duplicates)
+@[1-11](*containsExactly* expects all the elements in the correct order)
 
 +++
 
@@ -172,23 +172,22 @@ assertThat(elvesRings)
 
 ```java
 // TolkienCharacter fields: name, age, Race
-// Race field: name
 frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
 ...
 boromir = new TolkienCharacter("Boromir", 37, MAN);
 
 fellowshipOfTheRing= list(frodo, sam, merry, pippin, gandalf,
-                           legolas, gimli, aragorn, boromir);
+                          legolas, gimli, aragorn, boromir);
 
 assertThat(fellowshipOfTheRing)                       
     .extracting("name") // or use lambda: tc -> tc.getName()
     .contains("Boromir", "Gandalf", "Frodo", "Legolas")
     .doesNotContain("Sauron", "Elrond");               
 ```
-@[1-8](init a list of famous LotR characters)
-@[1-13](let's check the names of the fellowshipOfTheRing characters)
-@[1-11](create a new List to test with names of fellowshipOfTheRing characters)
-@[1-13](assertions on the extracted names)
+@[1-7](init a list of famous LotR characters)
+@[1-12](let's check the names of the fellowshipOfTheRing characters)
+@[1-10](create a new List to test with names of fellowshipOfTheRing characters)
+@[1-12](assertions on the extracted names)
 
 +++
 
@@ -226,7 +225,7 @@ Note:
 
 +++
 
-#### Basic exception testing (1)
+#### Basic exception testing 
 
 ```java
 void boom() {
@@ -245,13 +244,14 @@ try {
 fail("Should not arrive here");                                          
 ```
 @[1-4](let's test this method)
-@[1-9, 13](catch the exception and test it)
-@[1-11](some of the exception assertions)
-@[1-14](make the test fail if no exception was thrown)
+@[1-14](catch the exception and test it)
+
+Note:
+* make the test fail if no exception was thrown
 
 +++
 
-#### Better exception testing (2)
+#### Better exception testing (1/3)
 
 Use *assertThatThrownBy* 
 
@@ -267,7 +267,7 @@ assertThatThrownBy(() -> boom())
 
 +++
 
-#### Better exception testing (3)
+#### Better exception testing (2/3)
 
 Use *assertThatExceptionOfType* 
 
@@ -277,20 +277,23 @@ assertThatExceptionOfType(IllegalStateException.class)
     .withMessage("boom!")
     .withCauseInstanceOf(RuntimeException.class);
 
+// common exception shortcuts
 assertThatIllegalStateException()
-    .isThrownBy(() -> boom())
-    .withCauseInstanceOf(RuntimeException.class)
-    .withMessageContaining("boo");
+assertThatIllegalArgumentException()
+assertThatIOException()
+assertThatNullPointerException()
 ```
 @[1](Pass the expected exception type)
 @[1-2](Use a lambda to pass the code to test)
 @[1-4](Chain exception assertions)
-@[1-7](Common exceptions comes with this pattern)
-@[1-9](Usual assertions chaining)
+@[1-10](Common exceptions shortcuts)
+
+Note:
+* common exception shortcuts assertThatIllegalStateException
 
 +++
 
-#### BDD exception testing BDD (4)
+#### BDD exception testing BDD (3/3)
 
 Use *catchThrowable* 
 
@@ -302,12 +305,11 @@ final Throwable thrown = catchThrowable(codeCall);
 // THEN
 assertThat(thrown)
     .isInstanceOf(IllegalStateException.class)
-    .hasMessage("boom!")
-    .hasNoSuppressedExceptions();
+    .hasMessage("boom!");
 ```
 @[1-2](GIVEN some code)
 @[1-4](WHEN calling the code)
-@[1-9](THEN check the caught exception)
+@[1-8](THEN check the caught exception)
 
 Note:
 * use `catchThrowableOfType` to get the actual `Throwable` type
@@ -369,9 +371,7 @@ to end with:
 ```
 
 @[1](number of failures)
-@[2-6](first assertion error)
-@[8-12](second assertion error)
-@[13-17](last assertion error)
+@[1-17](numbered list of errors)
 
 +++
 
@@ -392,10 +392,6 @@ public void junit_soft_assertions_example() {
   // no need to call assertAll() ! :)
 }
 ```
-
-@[1-2](init the JUnit rule)
-@[1-10, 13](use soft assertions as usual)
-@[1-13](the rule calls assertAll() for us)
 
 ---
 
@@ -446,7 +442,7 @@ AssertJ provides operators to combine conditions:
 <br>
 ```java
 assertThat("Vader").is(anyOf(jedi, sith))
-                   .is(not(jedi));
+                     .is(not(jedi));
 ```
 
 +++
@@ -473,6 +469,32 @@ assertThat(characters).haveExactly(2, jediPowers);
 @[7-9](check that at least 2 elements meet the condition)
 @[7, 10-11](check that at most 2 elements meet the condition)
 @[7, 12-13](check that exactly 2 elements meet the condition)
+
+
+---
+## Uncovered advanced topics 
+
+- Assumptions |
+- AssertJ modules |
+- Using comparators |
+- Using recursive field by field comparison |
+- Custom/domain assertions |
+
+Note:
+- no more confusion about expected vs actual
+- assertion description as()
+- chaining assertion
+- show representation ?
+
+---
+
+## Final words
+
+- Hands on time! 
+- Don't hesitate to ask questions
+
+Note:
+- What's next for AssertJ: full assertions documentation, better recursive API, java 9 and junit 5 support.
 
 ---
 
@@ -509,8 +531,8 @@ public void should_be_executed_as_assumption_is_met() {
 @[3-9](the assertions is not executed as the assumption was not met)
 @[11-16](the assertion is executed as the assumption was met)
 
+--- 
 
----
 ## AssertJ modules
 
 AssertJ has modules for:
@@ -580,21 +602,7 @@ Note:
 
 ---
 
-## Advanced topics
-
-- Using comparators |
-- Using recursive field by field comparison |
-- Custom/domain assertions |
-
-Note:
-- no more confusion about expected vs actual
-- assertion description as()
-- chaining assertion
-- show representation ?
-
-+++
-
-#### Using comparators
+## Using comparators
 
 Specify your own comparator when evaluating assertions.
 
@@ -675,9 +683,9 @@ Note:
 - nice error message showing the path and value of non matching fields 
 - register comparators by field or type
 
-+++
+---
 
-#### Custom domain assertions
+## Custom domain assertions
 
 Express assertions in the domain language: 
 - make the assertions code more readable
