@@ -66,7 +66,7 @@ Adding AssertJ Core to a PB2 Test project:
   </publications>
   <dependencies>
     <dependency conf="test->nodist" name="assertj-core" 
-                org="assertj" rev="3.9.0"/>
+                org="assertj" rev="3.9.1"/>
     <!-- other usual test dependencies -->
     <dependency conf="test->nodist" org="bundle" name="org.junit" rev="4.12.0"/>
     <dependency conf="test->nodist" org="bundle" name="org.mockito" rev="1.9.5"/>
@@ -84,14 +84,14 @@ Maven
 <dependency>
   <groupId>org.assertj</groupId>
   <artifactId>assertj-core</artifactId>
-  <version>3.9.0</version>
+  <version>3.9.1</version>
   <scope>test</scope>
 </dependency>
 ```
 
 Gradle
 ```
-testCompile 'org.assertj:assertj-core:3.9.0'
+testCompile 'org.assertj:assertj-core:3.9.1'
 ```
 
 ---
