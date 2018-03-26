@@ -42,6 +42,7 @@ AssertJ is an assertion java library which:
 
 Note:
 * ~900 assertions over 50 types
+* javadoc example: http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#containsExactly-ELEMENT...-
 
 ---
 
@@ -101,7 +102,6 @@ testCompile 'org.assertj:assertj-core:3.9.1'
 - Start with Assertions.assertThat(stuffToTest) |
 - Discover assertions with code completion | 
 - Chain assertions |
-- Quick demo |
 
 Note:
 Demo: 
@@ -137,8 +137,7 @@ assertThat("Gandalf")
 
 - Works for Iterable, array and Stream |
 - Different "contains" assertion flavors |
-- feature highlight: extracting |
-- feature highlight: filter | 
+- features highlight: extracting and filter |
 
 Note:
 * Stream are converted to List to allow multiple assertions since you only consume a Stream once.
@@ -186,7 +185,6 @@ assertThat(fellowshipOfTheRing)
     .contains("Boromir", "Gandalf", "Frodo", "Legolas")
     .doesNotContain("Sauron", "Elrond");               
 ```
-@[1-2](TolkienCharacter is a simple data class)
 @[1-8](init a list of famous LotR characters)
 @[1-13](let's check the names of the fellowshipOfTheRing characters)
 @[1-11](create a new List to test with names of fellowshipOfTheRing characters)
@@ -206,10 +204,11 @@ assertThat(fellowshipOfTheRing)
     .extracting(tc -> tc.getName())                  
     .containsOnly("Sam", "Frodo", "Pippin", "Merry");    
 ```
-@[1-2](use of a Java 8 *Predicate* to filter fellowshipOfTheRing)
-@[1-3](check it contains only Hobbits characters)
-@[5-7](combine filter and extracting FTW !)
-@[5-8](check it contains the expected Hobbit's names)
+@[1-3](filterHobbits in fellowshipOfTheRing)
+@[5-8](combine filter and extracting FTW !)
+
+Note:
+* use of a Java 8 *Predicate* to filter fellowshipOfTheRing
 
 ---
 
