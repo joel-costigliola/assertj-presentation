@@ -34,11 +34,14 @@ Note:
 ## What is AssertJ ?
 
 AssertJ is an assertion java library which:
-- provides rich assertions for common java types |
+- provides rich assertions for 50+ java types |
 - improves test code readability with its fluent API | 
 - easy to use with your favorite IDE |
 - reports helpful error messages when assertions fail | 
 - has javadoc with code examples |
+
+Note:
+* ~900 assertions over 50 types
 
 ---
 
@@ -70,9 +73,6 @@ Adding AssertJ Core to a PB2 Test project:
   </dependencies>
 </ivy-module>
 ```
-
-@[5](ivy test config)
-@[10-11](assertj-core dependency)
 
 +++
 
