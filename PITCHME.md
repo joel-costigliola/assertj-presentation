@@ -49,6 +49,7 @@ Note:
 ## Quick start
 
 Add assertj-core library to your test dependencies 
+[Optionally convert your existing assertions to AssertJ](http://joel-costigliola.github.io/assertj/assertj-core-converting-junit-assertions-to-assertj.html)
 
 +++
 
