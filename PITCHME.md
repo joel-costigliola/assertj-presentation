@@ -49,7 +49,9 @@ Note:
 ## Quick start
 
 Add assertj-core library to your test dependencies 
-[Optionally convert your existing assertions to AssertJ](http://joel-costigliola.github.io/assertj/assertj-core-converting-junit-assertions-to-assertj.html)
+
+Note:
+* [Optionally convert your existing assertions to AssertJ](http://joel-costigliola.github.io/assertj/assertj-core-converting-junit-assertions-to-assertj.html)
 
 +++
 
@@ -358,7 +360,6 @@ Expecting:
  <"Michael Jordan - Bulls">
 to start with:
  <"Mike">
-
 2) 
 Expecting:
  <"Michael Jordan - Bulls">
@@ -372,7 +373,7 @@ to end with:
 ```
 
 @[1](number of failures)
-@[1-17](numbered list of errors)
+@[1-16](numbered list of errors)
 
 +++
 
