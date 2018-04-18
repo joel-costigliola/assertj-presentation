@@ -12,15 +12,15 @@ Note:
 
 - What is AssertJ ? |
 - Quick start |
-- Assertions quick tour |
+- Short Assertions tour |
 - Soft assertions |
-- Using conditions |
 - Hands on ! |
 
 +++
 
 ## Agenda - advanced session
 
+- Using conditions |
 - Assumptions |
 - AssertJ modules |
 - Using comparators |
@@ -397,6 +397,33 @@ public void junit_soft_assertions_example() {
 
 ---
 
+## Uncovered advanced topics 
+
+- Conditions |
+- Assumptions |
+- AssertJ modules |
+- Using comparators |
+- Using recursive field by field comparison |
+- Custom/domain assertions |
+
+Note:
+- no more confusion about expected vs actual
+- assertion description as()
+- chaining assertion
+- show representation ?
+
+---
+
+## Final words
+
+- Hands on time! 
+- Don't hesitate to ask questions
+
+Note:
+- What's next for AssertJ: full assertions documentation, better recursive API, java 9 and junit 5 support.
+
+---
+
 ## Conditions
 
 - Extend AssertJ assertions with conditions |
@@ -471,32 +498,6 @@ assertThat(characters).haveExactly(2, jediPowers);
 @[7-9](check that at least 2 elements meet the condition)
 @[7, 10-11](check that at most 2 elements meet the condition)
 @[7, 12-13](check that exactly 2 elements meet the condition)
-
-
----
-## Uncovered advanced topics 
-
-- Assumptions |
-- AssertJ modules |
-- Using comparators |
-- Using recursive field by field comparison |
-- Custom/domain assertions |
-
-Note:
-- no more confusion about expected vs actual
-- assertion description as()
-- chaining assertion
-- show representation ?
-
----
-
-## Final words
-
-- Hands on time! 
-- Don't hesitate to ask questions
-
-Note:
-- What's next for AssertJ: full assertions documentation, better recursive API, java 9 and junit 5 support.
 
 ---
 
