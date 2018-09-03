@@ -70,7 +70,7 @@ Adding AssertJ Core to a PB2 Test project:
   </publications>
   <dependencies>
     <dependency conf="test->nodist" name="assertj-core" 
-                org="assertj" rev="3.9.1"/>
+                org="assertj" rev="3.11.1"/>
     <!-- other usual test dependencies -->
     <dependency conf="test->nodist" org="bundle" name="org.junit" rev="4.12.0"/>
     <dependency conf="test->nodist" org="bundle" name="org.mockito" rev="1.9.5"/>
@@ -88,14 +88,14 @@ Maven
 <dependency>
   <groupId>org.assertj</groupId>
   <artifactId>assertj-core</artifactId>
-  <version>3.9.1</version>
+  <version>3.11.1</version>
   <scope>test</scope>
 </dependency>
 ```
 
 Gradle
 ```
-testCompile 'org.assertj:assertj-core:3.9.1'
+testCompile 'org.assertj:assertj-core:3.11.1'
 ```
 
 ---
@@ -661,13 +661,13 @@ Useful when:
 #### Example
 
 ```java
-Dude jon = new Dude("Jon", 1.2);
-Dude sam = new Dude("Sam", 1.3);
+Dude jon = new Dude("Jon", 1.8);
+Dude sam = new Dude("Sam", 1.5);
 jon.friend = sam;
 sam.friend = jon;
 
-Dude jonClone = new Dude("Jon", 1.2);
-Dude samClone = new Dude("Sam", 1.3);
+Dude jonClone = new Dude("Jon", 1.8);
+Dude samClone = new Dude("Sam", 1.5);
 jonClone.friend = samClone;
 samClone.friend = jonClone;
 
